@@ -53,13 +53,14 @@ public class Tree {
             
         }
     
-     public void inOrderTraverse(Node n){
+    public void inOrderTraverse(Node n){
         if (n == null)
             return;
             else
               {
                 inOrderTraverse(n.left);
-                System.out.print(n.id + "\t");                
+                 JOptionPane.showMessageDialog(null,"Node"+n.id);
+                System.out.println(n.id + "\t");                
                 inOrderTraverse(n.right);                
                 
               }          
@@ -70,7 +71,8 @@ public class Tree {
             return;
             else
               {
-                System.out.print(n.id + "\t");
+                System.out.println(n.id + "\t");
+                JOptionPane.showMessageDialog(null,"Node"+n.id);
                 postOrderTraverse(n.left);
                 postOrderTraverse(n.right);                
                 
@@ -85,10 +87,10 @@ public class Tree {
               {
                 postOrderTraverse(n.left);
                 postOrderTraverse(n.right);
-                System.out.print(n.id + "\t");
+                System.out.println(n.id + "\t");
+                  JOptionPane.showMessageDialog(null,"Node"+n.id);
                 
                 }  
-                   
                                           }
     
     public Node searchNode(int id){
