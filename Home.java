@@ -1,15 +1,26 @@
 
 package dsa.bookshop;
 
-import java.util.Arrays;
-import java.util.Vector;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
 public class Home extends javax.swing.JFrame {
-    Vector data=new Vector();
-     Vector details;
+    
+    
+   String Book[]={"id","name","author","surname","title"};
+   private Object[][] types = null;
+  
+   DefaultTableModel dtm;
+   
+    int id;
+    String name;
+    String author;
+    String surname;
+    String title;
+    
+    Tree mytree = new Tree();
  
     public Home() {
         initComponents();
@@ -17,7 +28,7 @@ public class Home extends javax.swing.JFrame {
 
   
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         txtisbn = new javax.swing.JTextField();
@@ -30,11 +41,11 @@ public class Home extends javax.swing.JFrame {
         txtbook = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        txtsearch = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(991, 432));
         setMinimumSize(new java.awt.Dimension(991, 432));
         setName("DSA-FI"); // NOI18N
         setResizable(false);
@@ -72,7 +83,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnadd);
-        btnadd.setBounds(194, 230, 104, 30);
+        btnadd.setBounds(194, 230, 104, 20);
 
         btnsearch.setText("SEARCH");
         btnsearch.setBorder(null);
@@ -85,12 +96,17 @@ public class Home extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnsearch);
-        btnsearch.setBounds(142, 356, 104, 23);
+        btnsearch.setBounds(142, 356, 104, 20);
 
         btndelete.setText("DELETE");
         btndelete.setBorder(null);
+        btndelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteActionPerformed(evt);
+            }
+        });
         getContentPane().add(btndelete);
-        btndelete.setBounds(256, 356, 104, 24);
+        btndelete.setBounds(256, 356, 104, 20);
 
         txtbook.setBorder(null);
         txtbook.setOpaque(false);
@@ -110,78 +126,155 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(340, 40, 617, 215);
 
-        jTextField1.setBorder(null);
-        jTextField1.setOpaque(false);
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(180, 325, 144, 14);
+        txtsearch.setToolTipText("enter search criteria");
+        txtsearch.setBorder(null);
+        txtsearch.setOpaque(false);
+        txtsearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtsearchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtsearch);
+        txtsearch.setBounds(180, 325, 144, 14);
+
+        jButton1.setText("Refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(340, 260, 104, 20);
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/dsa/bookshop/DSAbackground.PNG"))); // NOI18N
         getContentPane().add(jLabel7);
         jLabel7.setBounds(0, 0, 980, 420);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void txtisbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtisbnActionPerformed
+    private void txtisbnActionPerformed(java.awt.event.ActionEvent evt) {                                        
 
-    }//GEN-LAST:event_txtisbnActionPerformed
+    }                                       
 
-    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {                                       
 
-        details = new Vector(); // create main details object  for  add data 
+              
+id = Integer.parseInt(txtisbn.getText());
+name=txtbook.getText();
+author=txtauthor.getText();
+surname=txtsurname.getText();
+title = cmbtitle.getSelectedItem().toString();
+        
+ Node f1 = mytree.searchNode(id);
+        
+         if(f1 != null){
+                JOptionPane.showMessageDialog(null,+id+" "+"ISBN is already inserted");
+            
+                         }
+        else{
+                 mytree.insert(id,name,author,surname,title);
+                 fillTable();
+      }
+     
+        clear();
+       
+    }                                      
 
-        //add data into  details vector
-        details.add(txtisbn.getText());
-        details.add(txtbook.getText());
-        details.add(txtauthor.getText());
-        details.add(txtsurname.getText());
-        details.add(cmbtitle.getSelectedItem());
+    private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        //Tree mytree = new Tree();
+           
+        
+        int c = Integer.parseInt(txtsearch.getText());
+        Node R1 = mytree.searchNode(c);
+        //System.out.println(""+R1);
+         
+        
+        if (R1 !=null){
+            System.out.println("Node "+R1.id+" Found");
+                System.out.println("Name:-"+R1.Name);
+                System.out.println("Author:-"+R1.author);
+                System.out.println("Surname:-"+R1.surname);  
+                
+            JOptionPane.showMessageDialog(null,"Found Element "+"\n-------------------------"+"\n ISBN - "+R1.getId()+"\n Author -"+R1.getAuthor()+"\n Surname - "+R1.getSurname()+"\n Title - "+R1.getTitle()+"\n Book Name - "+R1.getName());
+                               }
+        
+        else{
+             System.out.println("Node not found"); 
+            JOptionPane.showMessageDialog(null,"\n ID is not in current Tree");
+        } 
+            clear();
 
-        // add details as a object 
-        data.add(details);
+    }                                         
 
-        //add data into jtable  
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-        dtm.addRow(details);
-    }//GEN-LAST:event_btnaddActionPerformed
+    private void txtsearchActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }                                         
 
-    private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsearchActionPerformed
-        try{
-for(int i=0;i<=data.size();i++)
-{
-  details= (Vector) data.elementAt(i);
-  //get data inside of  vector  
-     System.out.println(""+details.elementAt(0));
-      //System.out.println(""+details.elementAt(1));
-        //System.out.println(""+details.elementAt(2));
-      
-}}catch(Exception ex)
-{
+    private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        int del = Integer.parseInt(txtsearch.getText());
+        mytree.delete(del);
+        clear();
+    }                                         
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        fillTable();
+    }                                        
+
     
-}
-
-    }//GEN-LAST:event_btnsearchActionPerformed
-
+        public void clear(){
+        
+        txtisbn.setText("");
+        txtauthor.setText("");
+        txtsurname.setText("");
+        txtbook.setText("");
+        txtsearch.setText("");
+                    
+    }
+        
+                                                  
+    public void fillTable(){ 
+        
+        dtm=new DefaultTableModel(types,Book);
+        jTable1.setModel(dtm);
+        Node root=mytree.getRoot();                   //assign root node
+        inOrder(root);                                 //pasising value to root node
+        
+    }
+    
+    public void inOrder(Node root){
+        
+        if(root!=null){            
+            inOrder(root.getLeft());
+            dtm.addRow(new Object[]{root.id,root.Name,root.author,root.surname,root.title});
+            inOrder(root.getRight());           
+            
+        }
+    }
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
-                new Home().setVisible(true);
+               Home hw =new Home();
+                       hw.setVisible(true);
             }
         });
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton btnadd;
     private javax.swing.JButton btndelete;
     private javax.swing.JButton btnsearch;
     private javax.swing.JComboBox cmbtitle;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField txtauthor;
     private javax.swing.JTextField txtbook;
     private javax.swing.JTextField txtisbn;
+    private javax.swing.JTextField txtsearch;
     private javax.swing.JTextField txtsurname;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
