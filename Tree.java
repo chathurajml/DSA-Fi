@@ -53,7 +53,7 @@ public class Tree {
             
         }
     
-    public void inOrderTraverse(Node n){
+     public void inOrderTraverse(Node n){
         if (n == null)
             return;
             else
@@ -88,6 +88,7 @@ public class Tree {
                 System.out.print(n.id + "\t");
                 
                 }  
+                   
                                           }
     
     public Node searchNode(int id){
